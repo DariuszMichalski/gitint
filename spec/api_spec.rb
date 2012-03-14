@@ -1,31 +1,17 @@
-require 'rubygems'
-require 'bundler'
-
-Bundler.require
+require 'spec_helper'
 
 set :environment, :test
 
-require File.dirname(__FILE__) + "/../api.rb"
-
-require "rack/test"
-
-def app
-  API
-end
-
 describe "API" do
-  include Rack::Test::Methods
-
   it "should load the home page" do
     get "/"
+    puts last_response.body
     last_response.status.should == 200
     last_response.body.should == 'Hello World!'
   end
 end
 
 describe "Commit Parser" do
-  include Rack::Test::Methods
-
   before(:each) do
     @github_hook = {
       :commits => [
