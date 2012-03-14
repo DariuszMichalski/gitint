@@ -1,0 +1,4 @@
+To run the Sinatra app:
+
+    $ bundle install
+    $ rackup
