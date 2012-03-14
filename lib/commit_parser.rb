@@ -17,7 +17,7 @@ class CommitParser
       @commit_message = complete_message.gsub(matched_brackets[1], '').strip
       in_bracket_string = matched_brackets[1].gsub(/[\],\[]/,'').strip # remove brackets from captured string
       # get story numbers from inside the bracket
-      get_story_numbers(in_bracket_string) if in_bracket_string.present?
+      get_story_numbers(in_bracket_string) if in_bracket_string
     end
     print_data
   end
