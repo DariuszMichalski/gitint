@@ -3,11 +3,12 @@ class CommitParser
   attr_reader :commit_message, :stories
 
   BRACKET_REGEXP = /\A(\[.+?\])/      # regexp which is used to get the first bracked from commit message
-  STORY_NUMBER_REGEXP = /(#[0-9]+)+/  # regexp which is used to get story numbers from the first bracket
+  STORY_NUMBER_REGEXP = /#([0-9]+)+/  # regexp which is used to get story numbers from the first bracket
 
   def initialize(message='')
     @complete_message = @commit_message = message.strip
     @stories = []
+    parse
   end
 
   def parse
@@ -19,7 +20,6 @@ class CommitParser
       # get story numbers from inside the bracket
       get_story_numbers(in_bracket_string) if in_bracket_string
     end
-    print_data
   end
 
   private
