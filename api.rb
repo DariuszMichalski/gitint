@@ -1,3 +1,5 @@
+require 'sinatra'
+require 'json'
 require 'commit_parser'
 
 class API < Sinatra::Base
@@ -6,14 +8,8 @@ class API < Sinatra::Base
   configure do
     set :root, File.dirname(__FILE__)
   end
-  configure :development do
-    set :database => "sqlite://gitint-dev.db"
-  end
-  configure :test do
-    set :database => "sqlite://gitint-test.db"
-  end
-  # -------------------------------------------- #
 
+  # -------------------------------------------- #
   get '/' do
     status 200
     # parse sample commit message
@@ -27,9 +23,9 @@ class API < Sinatra::Base
     last_commit_message = push["commits"].last["message"] # get last commit message
     committer = push["commits"].last["committer"] # get committer's data
     # print data from github
-    puts "\nGithub Hook"
-    puts last_commit_message.inspect
-    puts committer.inspect
+#    puts "\nGithub Hook"
+#    puts last_commit_message.inspect
+#    puts committer.inspect
     # parse commit message
     cp = CommitParser.new(last_commit_message)
     cp.parse
