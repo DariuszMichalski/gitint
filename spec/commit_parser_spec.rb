@@ -28,6 +28,9 @@ describe CommitParser do
       let(:message) { "[In Progress #1234] will move story 1234 to the workflow state of in_progess" }
 
       its(:stories) { should == ["1234"] }
+      its(:workflow_change) { should == "In Progress" }
+      its(:commit_message) { should == "will move story 1234 to the workflow state of in_progess" }
+
       # test the message
       # test the transition
     end
