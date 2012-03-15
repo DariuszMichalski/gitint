@@ -31,6 +31,15 @@ describe "Handle POST request with given correct payload" do
       end
     end
 
+    it "should get POST payload from gihub and return parsed data" do
+      post "/push", params = { :payload => payload.to_json }
+      parsed_data = {:complete_message => "[#1234] this comment will appear in Agile Bench Story 1234",
+                     :commit_message   => "this comment will appear in Agile Bench Story 1234",
+                     :stories          => ["1234"],
+                     :workflow_change  => "" }
+      last_response.status.should == 200
+      last_response.body.should == parsed_data.to_json
+    end
   end
 
   context "Response statuses" do
