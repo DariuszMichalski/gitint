@@ -5,9 +5,7 @@ set :environment, :test
 describe "API" do
   it "should load the home page" do
     get "/"
-    puts last_response.body
     last_response.status.should == 200
-    last_response.body.should == 'Hello World!'
   end
 end
 
@@ -25,8 +23,8 @@ describe "Commit Parser" do
     post "/push", params = {:payload => @github_hook.to_json}
     parsed_data = {:complete_message => "[ In Progress #123] Last commit message",
                    :commit_message   => "Last commit message",
-                   :stories          => ["#123"],
-                   :workflow_changes => {"#123" => "In Progress"} }
+                   :stories          => ["123"],
+                   :workflow_change => "In Progress" }
     last_response.status.should == 200
     last_response.body.should == parsed_data.to_json
   end

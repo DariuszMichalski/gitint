@@ -29,6 +29,21 @@ class CommitParser
     #print_data # TODO: remote it (just for testing)
   end
 
+  def to_s # TODO: remove it (just for testing)
+    puts "\n- Attributes -"
+    puts "complete message: " + complete_message.inspect
+    puts "commit message: " + commit_message.inspect
+    puts "stories affected: " + stories.inspect
+    puts "workflow change: " + workflow_change.inspect
+  end
+
+  def to_json
+    { :complete_message => complete_message,
+      :commit_message   => commit_message,
+      :stories          => stories,
+      :workflow_change  => workflow_change }.to_json
+  end
+
   private
 
   def get_story_numbers(in_bracket_string)
@@ -38,14 +53,6 @@ class CommitParser
   def check_workflow_change(in_bracket_string)
     # check workflow only if there are story numbers detected
     @workflow_change = in_bracket_string.split('#').first.strip if stories.size > 0
-  end
-
-  def to_s # TODO: remove it (just for testing)
-    puts "\n- Attributes -"
-    puts "complete message: " + complete_message.inspect
-    puts "commit message: " + commit_message.inspect
-    puts "stories affected: " + stories.inspect
-    puts "workflow changes: " + workflow_changes.inspect
   end
 
 end
