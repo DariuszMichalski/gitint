@@ -25,6 +25,12 @@ class API < Sinatra::Base
     cp = CommitParser.new("[ In Progress  #321] my commit message")  #(last_commit_message)
   end
 
+  post '/' do # github-services
+    puts "\n* Got POST message from github-services *"
+    puts "JSON: " + params[:data]
+    puts "Parsed: " + JSON.parse(params[:data]).inspect
+  end
+
   post '/push' do
     if push = JSON.parse(params[:payload]) and payload_correct?(push)
       last_commit_message = push["commit"]["message"] # get last commit message
