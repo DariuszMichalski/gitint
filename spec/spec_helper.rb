@@ -1,4 +1,5 @@
 require 'rack/test'
+require 'spec/mocks'
 
 begin
   require_relative '../api.rb'
@@ -11,4 +12,7 @@ module RSpecMixin
   def app() API end
 end
 
-RSpec.configure { |c| c.include RSpecMixin }
+RSpec.configure { |c|
+  c.include RSpecMixin
+  c.mock_with :rspec
+}
