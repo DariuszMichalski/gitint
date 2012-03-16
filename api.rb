@@ -20,8 +20,6 @@ class API < Sinatra::Base
 
   get '/' do
     status 200
-    # parse sample commit message
-    cp = CommitParser.new("[ In Progress  #321] my commit message")  #(last_commit_message)
   end
 
   post '/project/:project_id' do # github-services

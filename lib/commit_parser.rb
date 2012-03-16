@@ -4,13 +4,14 @@ class CommitParser
   # :commit_message contains a commit message without bracket data
   # :complete message contains the whole commit message with bracket data
   attr_accessor :complete_message
-  attr_reader :commit_message, :stories, :workflow_change
+  attr_reader :committer, :commit_message, :stories, :workflow_change
 
   BRACKET_REGEXP = /\A(\[.+?\])/      # regexp which is used to get the first bracked from commit message
   STORY_NUMBER_REGEXP = /#([0-9]+)+/  # regexp which is used to get story numbers from the first bracket
 
   def initialize(commit)
     @complete_message = @commit_message = commit["message"].strip
+    @committer = { :name => commit["committer"]["name"], :username => commit["committer"]["username"], :email => commit["committer"]["email"] }
     @stories = []
     parse
   end
@@ -35,13 +36,15 @@ class CommitParser
     puts "commit message: " + commit_message.inspect
     puts "stories affected: " + stories.inspect
     puts "workflow change: " + workflow_change.inspect
+    puts "committer: " + committer.inspect
   end
 
   def to_json
     { :complete_message => complete_message,
       :commit_message   => commit_message,
       :stories          => stories,
-      :workflow_change  => workflow_change }.to_json
+      :workflow_change  => workflow_change,
+      :committer        => committer }.to_json
   end
 
   private

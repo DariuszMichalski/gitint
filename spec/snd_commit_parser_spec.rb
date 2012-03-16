@@ -2,6 +2,12 @@ require 'commit_parser'
 
 describe "Handle POST request with given correct payload" do
   
+  let(:message) { "[#1234] this comment will appear in Agile Bench Story 1234" }
+  
+  let(:name) { "John Smith" }
+  let(:username) { "JohnSmith" }
+  let(:email) { "john@example.com" }
+  
   let(:project_id) { "123" } 
   
   let(:data) do # this is the payload sent via github-services
@@ -134,11 +140,11 @@ describe "Handle POST request with given correct payload" do
             "url":"https://github.com/DariuszMichalski/gitint/commit/d477937fb1fef438b2298725423c1bd117010885",
             "id":"d477937fb1fef438b2298725423c1bd117010885",
             "distinct":true,
-            "message":"[#1234] this comment will appear in Agile Bench Story 1234",
+            "message":"' + message + '",
             "committer":{
-              "name":"Dariusz Michalski",
-              "username":"DariuszMichalski",
-              "email":"dariusz.michalski@useo.pl"
+              "name":"' + name + '",
+              "username":"' + username + '",
+              "email":"' + email + '"
             }
           }
         ],
@@ -170,7 +176,8 @@ describe "Handle POST request with given correct payload" do
         parsed_data = {:complete_message => "[#1234] this comment will appear in Agile Bench Story 1234",
                        :commit_message   => "this comment will appear in Agile Bench Story 1234",
                        :stories          => ["1234"],
-                       :workflow_change  => "" }
+                       :workflow_change  => "",
+                       :committer        => { :name => name, :username => username, :email => email } }
         last_response.body.should == parsed_data.to_json
         last_response.status.should == 200
       end

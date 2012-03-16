@@ -5,6 +5,10 @@ describe CommitParser do
   
   let(:message) { "nothing" }
   
+  let(:name) { "John Smith" }
+  let(:username) { "JohnSmith" }
+  let(:email) { "john@example.com" }
+  
   let(:commit) do
     JSON.parse('
     {
@@ -28,14 +32,21 @@ describe CommitParser do
       "distinct":true,
       "message":"' + message + '",
       "committer":{
-        "name":"Dariusz Michalski",
-        "username":"DariuszMichalski",
-        "email":"dariusz.michalski@useo.pl"
+        "name":"' + name + '",
+        "username":"' + username + '",
+        "email":"' + email + '"
       }
     }')    
   end
 
   its(:stories) { should == [] }
+  
+  describe "for all scenarios" do
+    context "given any story" do
+      let(:message) { "anything" }
+      its(:committer) { should == { :name => name, :username => username, :email => email } }
+    end
+  end
 
   describe "without a state transition" do
     context "given a single story" do
