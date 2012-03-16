@@ -1,9 +1,39 @@
 require 'commit_parser'
 
 describe CommitParser do
-  subject { CommitParser.new message }
-
+  subject { CommitParser.new commit }
+  
   let(:message) { "nothing" }
+  
+  let(:commit) do
+    JSON.parse('
+    {
+      "modified":[
+        "spec/snd_commit_parser_spec.rb"
+      ],
+      "added":[
+
+      ],
+      "author":{
+        "name":"Dariusz Michalski",
+        "username":"DariuszMichalski",
+        "email":"dariusz.michalski@useo.pl"
+      },
+      "timestamp":"2012-03-15T10:46:15-07:00",
+      "removed":[
+
+      ],
+      "url":"https://github.com/DariuszMichalski/gitint/commit/7f09f6eef2de765459be546c612ece131df2f075",
+      "id":"7f09f6eef2de765459be546c612ece131df2f075",
+      "distinct":true,
+      "message":"' + message + '",
+      "committer":{
+        "name":"Dariusz Michalski",
+        "username":"DariuszMichalski",
+        "email":"dariusz.michalski@useo.pl"
+      }
+    }')    
+  end
 
   its(:stories) { should == [] }
 
