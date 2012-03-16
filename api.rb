@@ -33,7 +33,7 @@ class API < Sinatra::Base
       cp = CommitParser.new(last_commit)
       # this is just for testing
       status 200
-      # puts cp.to_json
+      puts cp.to_json
       content_type :json
       cp.to_json # return object attributes as hash (for rspec tests)
     else

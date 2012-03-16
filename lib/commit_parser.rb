@@ -27,10 +27,25 @@ class CommitParser
       # workflow handling
       check_workflow_change(in_bracket_string)
     end
-    #print_data # TODO: remote it (just for testing)
   end
 
-  def to_s # TODO: remove it (just for testing)
+  def can # this method tells what we can do with parsed data. It can be used later while processing requests and updating AgileBench DB.
+    if stories.size == 1 and workflow_change.nil?
+      :update_single_story
+    elsif stories.size > 0 and workflow_change.nil?
+      :update_multiple_stories
+    elsif stories.size > 0 and workflow_change.present?
+      :update_story_with_transition
+    else 
+      :nothing
+    end
+  end
+
+  def can?(what)
+    can == what
+  end
+  
+  def to_s 
     puts "\n- Attributes -"
     puts "complete message: " + complete_message.inspect
     puts "commit message: " + commit_message.inspect
