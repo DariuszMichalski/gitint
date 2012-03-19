@@ -54,6 +54,7 @@ describe CommitParser do
 
       its(:stories) { should == ["1234"] }
       its(:commit_message) { should == "this comment will appear in Agile Bench Story 1234" }
+      its(:can) { should == :update_single_story }
     end
 
     context "given multiple stories" do
@@ -61,6 +62,7 @@ describe CommitParser do
 
       its(:stories) { should == ["1234", "5678"] }
       its(:commit_message) { should == "this comment will appear in both stories 1234 and 5678" }
+      its(:can) { should == :update_multiple_stories }
     end
   end
 
@@ -71,9 +73,11 @@ describe CommitParser do
       its(:stories) { should == ["1234"] }
       its(:workflow_change) { should == "In Progress" }
       its(:commit_message) { should == "will move story 1234 to the workflow state of in_progess" }
+      its(:can) { should == :update_story_with_transition } 
+      # it "should be able to update story with transition" do # different way of testing can method
+        # subject.can.should == :update_story_with_transition
+      # end
 
-      # test the message
-      # test the transition
     end
 
     # [Done #1234] will move story 1234 to the workflow state of done
@@ -81,5 +85,25 @@ describe CommitParser do
     # [Fixes #1234]  will move story 1234 to the workflow state of done
     # test error states.
     # etc
+    
+    describe "without bracket data" do
+      context "given a commit message with no brakcet data" do
+        let(:message) { "this comment has no additional data" }
+        
+        its(:workflow_change) { should == nil }
+        its(:commit_message) { should == message }
+        its(:can) { should == :nothing }
+      end
+
+      context "given multiple stories" do
+        let(:message) { "[#1234 #5678] this comment will appear in both stories 1234 and 5678" }
+
+        its(:stories) { should == ["1234", "5678"] }
+        its(:commit_message) { should == "this comment will appear in both stories 1234 and 5678" }
+        its(:can) { should == :update_multiple_stories }
+      end
+    end
+        
+    
   end
 end

@@ -30,11 +30,11 @@ class CommitParser
   end
 
   def can # this method tells what we can do with parsed data. It can be used later while processing requests and updating AgileBench DB.
-    if stories.size == 1 and workflow_change.nil?
+    if stories.size == 1 and workflow_change.empty?
       :update_single_story
-    elsif stories.size > 0 and workflow_change.nil?
+    elsif stories.size > 0 and workflow_change.empty?
       :update_multiple_stories
-    elsif stories.size > 0 and workflow_change.present?
+    elsif stories.size > 0 and !workflow_change.empty?
       :update_story_with_transition
     else 
       :nothing
