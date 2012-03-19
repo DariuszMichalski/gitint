@@ -161,24 +161,12 @@ describe "Handle POST request with given correct payload" do
   end
 
   context "Commit Parser" do
-    #before(:each) do
-      #@commit_parser = double "CommitParser"
-    #end
-
-    it "should be initialized correctly after receiving correct payload" do
-      post "/push", params = { :payload => data } do
-        last_response.status.should == 200
-      end
-    end
-
+    
     it "should get POST payload from gihub and return parsed data" do
+                           
+      CommitParser.should_receive(:new).exactly(1).times
+      
       post "/project/#{project_id}", params = { :data => data } do
-        parsed_data = {:complete_message => "[#1234] this comment will appear in Agile Bench Story 1234",
-                       :commit_message   => "this comment will appear in Agile Bench Story 1234",
-                       :stories          => ["1234"],
-                       :workflow_change  => "",
-                       :committer        => { :name => name, :username => username, :email => email } }
-        last_response.body.should == parsed_data.to_json
         last_response.status.should == 200
       end
     end
